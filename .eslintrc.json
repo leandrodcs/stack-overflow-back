@@ -15,5 +15,14 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "indent": ["error", 4],
+        "import/extensions": "off"
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".jsx", ".ts", ".tsx"]
+            }
+        }
     }
 }
