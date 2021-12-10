@@ -16,7 +16,9 @@
     ],
     "rules": {
         "indent": ["error", 4],
-        "import/extensions": "off"
+        "import/extensions": "off",
+        "max-len": 0,
+        "consistent-return": "off"
     },
     "settings": {
         "import/resolver": {
