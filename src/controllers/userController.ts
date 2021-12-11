@@ -9,8 +9,6 @@ async function createUser(req: Request, res: Response, next: NextFunction) {
     } = req.body;
 
     try {
-        if (!name || !className) return res.status(400).send('Dados insuficientes');
-
         const checkValidation = validadeUser(req.body);
 
         if (checkValidation) return res.status(400).send(checkValidation);
