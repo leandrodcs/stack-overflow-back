@@ -7,6 +7,5 @@ async function createUser(name: string, classId: number) {
 }
 
 export {
-    // eslint-disable-next-line import/prefer-default-export
     createUser,
 };

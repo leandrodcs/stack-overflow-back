@@ -6,7 +6,13 @@ async function createSession(userId: number, token: string) {
     return result.rows[0];
 }
 
+async function getSession(token: string) {
+    const result = await connection.query('SELECT * FROM sessions WHERE token = $1', [token]);
+
+    return result.rows[0];
+}
+
 export {
-    // eslint-disable-next-line import/prefer-default-export
     createSession,
+    getSession,
 };

@@ -22,6 +22,5 @@ async function createUser(req: Request, res: Response, next: NextFunction) {
 }
 
 export {
-    // eslint-disable-next-line import/prefer-default-export
     createUser,
 };

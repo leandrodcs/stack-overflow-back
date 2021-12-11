@@ -13,12 +13,11 @@ const validadeQuestion = (data: any) => {
         if (message.includes('student')) return 'Insira um nome válido.';
         if (message.includes('className')) return 'Insira uma classe válida.';
         if (message.includes('tags')) return 'Insira ao menos uma tag para sua pergunta.';
-    } else {
-        return false;
     }
+
+    return false;
 };
 
 export {
-    // eslint-disable-next-line import/prefer-default-export
     validadeQuestion,
 };

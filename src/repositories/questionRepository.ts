@@ -1,4 +1,5 @@
 import connection from '../database/database';
+import { NewAnswerInfoDB } from '../interfaces/answerInterface';
 import { NewQuestion, ReturnedQuestion } from '../interfaces/questionInterface';
 
 async function createQuestion(questionBody: NewQuestion): Promise<ReturnedQuestion> {
@@ -21,6 +22,27 @@ async function createQuestion(questionBody: NewQuestion): Promise<ReturnedQuesti
     return result.rows[0];
 }
 
+async function answerQuestion(newAnswerInfoDB: NewAnswerInfoDB) {
+    const {
+        answeredById,
+        answer,
+        id,
+    } = newAnswerInfoDB;
+
+    await connection.query(`
+    UPDATE
+        questions
+    SET
+        answered = $1,
+        answered_at = $2,
+        answered_by = $3,
+        answer = $4
+    WHERE
+        id = $5
+    ;`, [true, new Date(), answeredById, answer, id]);
+}
+
 export {
     createQuestion,
+    answerQuestion,
 };

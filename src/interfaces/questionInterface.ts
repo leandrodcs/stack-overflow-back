@@ -1,4 +1,3 @@
-/* eslint-disable semi */
 interface NewQuestion {
     question: string;
     student: string;

@@ -18,7 +18,6 @@ async function postQuestion(questionBody: NewQuestion) {
         }
         await tagRepository.createTagQuestionRelation({ questionId: createdQuestion.id, tagId: tagExists.id });
     }
-
     return createdQuestion;
 }
 
