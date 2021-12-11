@@ -42,7 +42,14 @@ async function answerQuestion(newAnswerInfoDB: NewAnswerInfoDB) {
     ;`, [true, new Date(), answeredById, answer, id]);
 }
 
+async function getQuestion(id: number) {
+    const result = await connection.query('SELECT * FROM questions WHERE id = $1', [id]);
+
+    return result.rows[0];
+}
+
 export {
     createQuestion,
     answerQuestion,
+    getQuestion,
 };

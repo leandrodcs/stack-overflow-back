@@ -2,6 +2,10 @@
 import { NewQuestion } from '../interfaces/questionInterface';
 import * as tagRepository from '../repositories/tagsRepository';
 import * as questionRepository from '../repositories/questionRepository';
+import * as userRepository from '../repositories/userRepository';
+import { NewAnswerInfo } from '../interfaces/answerInterface';
+import NotFoundError from '../errors/notFoundError';
+import AlreadyAnsweredError from '../errors/alreadyAnsweredError';
 
 async function postQuestion(questionBody: NewQuestion) {
     const { tags } = questionBody;
@@ -21,6 +25,28 @@ async function postQuestion(questionBody: NewQuestion) {
     return createdQuestion;
 }
 
+async function answerQuestion(newAnswerInfo: NewAnswerInfo) {
+    const {
+        answer,
+        token,
+        id,
+    } = newAnswerInfo;
+
+    const user = await userRepository.findUserByToken(token);
+
+    const questionToBeAnswered = await questionRepository.getQuestion(id);
+
+    if (!questionToBeAnswered) {
+        throw new NotFoundError(`A pergunta de id ${id} não existe.`);
+    }
+    if (questionToBeAnswered.answered) {
+        throw new AlreadyAnsweredError(`A pergunta de id ${id} já foi respondida.`);
+    }
+
+    await questionRepository.answerQuestion({ answeredById: user.id, answer, id });
+}
+
 export {
     postQuestion,
+    answerQuestion,
 };
