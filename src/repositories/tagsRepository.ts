@@ -22,8 +22,26 @@ async function createTagQuestionRelation(newQuestionTag: NewTagQuestionRelation)
     await connection.query('INSERT INTO question_tags (question_id, tag_id) VALUES ($1, $2)', [questionId, tagId]);
 }
 
+async function getTagRelation(questionId: number) {
+    const result = await connection.query(`
+    SELECT 
+        tags.name
+    FROM
+        question_tags
+    JOIN
+        tags
+    ON
+        question_tags.tag_id = tags.id
+    WHERE
+        question_tags.question_id = $1
+    ;`, [questionId]);
+
+    return result.rows;
+}
+
 export {
     createTag,
     getTag,
     createTagQuestionRelation,
+    getTagRelation,
 };

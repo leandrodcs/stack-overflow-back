@@ -48,8 +48,18 @@ async function answerQuestion(newAnswerInfo: NewAnswerInfo) {
 
 async function listQuestions() {
     const questions = await questionRepository.listQuestions();
+    const formatedQuestions = [];
 
-    return questions;
+    for (let i = 0; i < questions.length; i++) {
+        const currentQuestionTags = await tagRepository.getTagRelation(questions[i].id);
+        const tags = currentQuestionTags.map((c) => c.name);
+        formatedQuestions.push({
+            ...questions[i],
+            tags: tags.join(', '),
+        });
+    }
+
+    return formatedQuestions;
 }
 
 export {
