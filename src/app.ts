@@ -3,6 +3,10 @@ import cors from 'cors';
 import userRouter from './routers/userRouter';
 import questionsRouter from './routers/questionRouter';
 import serverMiddlewareError from './middlewares/serverMiddlewareError';
+import dayjs from 'dayjs';
+import 'dayjs/locale/pt-br.js';
+
+console.log(dayjs().format('YYYY-MM-DD HH:mm'))
 
 const app = express();
 app.use(cors());

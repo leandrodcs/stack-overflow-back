@@ -46,6 +46,8 @@ async function listUnansweredQuestions(req: Request, res: Response, next: NextFu
     try {
         const questions = await questionService.listQuestions();
 
+        if (!questions.length) return res.sendStatus(204);
+
         res.status(200).send(questions);
     } catch (error) {
         next(error);

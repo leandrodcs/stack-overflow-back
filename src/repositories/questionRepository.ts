@@ -1,6 +1,8 @@
+import dayjs from 'dayjs';
 import connection from '../database/database';
 import { NewAnswerInfoDB } from '../interfaces/answerInterface';
 import { NewQuestion, ReturnedQuestion } from '../interfaces/questionInterface';
+import 'dayjs/locale/pt-br.js';
 
 async function createQuestion(questionBody: NewQuestion): Promise<ReturnedQuestion> {
     const {
@@ -17,7 +19,7 @@ async function createQuestion(questionBody: NewQuestion): Promise<ReturnedQuesti
         ($1, $2, $3, $4)
     RETURNING
         id
-    ;`, [question, student, className, new Date()]);
+    ;`, [question, student, className, dayjs().format('DD/MM/YYYY HH:mm')]);
 
     return result.rows[0];
 }
@@ -39,7 +41,7 @@ async function answerQuestion(newAnswerInfoDB: NewAnswerInfoDB) {
         answer = $4
     WHERE
         id = $5
-    ;`, [true, new Date(), answeredById, answer, id]);
+    ;`, [true, dayjs().format('DD/MM/YYYY HH:mm'), answeredById, answer, id]);
 }
 
 async function checkQuestion(id: number) {
@@ -51,12 +53,7 @@ async function checkQuestion(id: number) {
 async function listQuestions() {
     const result = await connection.query(`
     SELECT
-        id,
-        question,
-        posted_by AS student,
-        class,
-        answered,
-        submited_at as "submitedAt"
+        *
     FROM
         questions
     WHERE

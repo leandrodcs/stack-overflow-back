@@ -48,16 +48,14 @@ async function answerQuestion(newAnswerInfo: NewAnswerInfo) {
 
 async function listQuestions() {
     const questions = await questionRepository.listQuestions();
-    const formatedQuestions = [];
-
-    for (let i = 0; i < questions.length; i++) {
-        const currentQuestionTags = await tagRepository.getTagRelation(questions[i].id);
-        const tags = currentQuestionTags.map((c) => c.name);
-        formatedQuestions.push({
-            ...questions[i],
-            tags: tags.join(', '),
-        });
-    }
+    const formatedQuestions = questions.map((q) => ({
+        id: q.id,
+        question: q.question,
+        student: q.posted_by,
+        class: q.class,
+        submitedAt: q.submited_at,
+        score: q.score,
+    }));
 
     return formatedQuestions;
 }
