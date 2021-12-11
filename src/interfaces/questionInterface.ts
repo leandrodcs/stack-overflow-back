@@ -5,11 +5,11 @@ interface NewQuestion {
     tags?: string;
 }
 
-interface ReturnedQuestion {
-    id: number;
+interface QuestionId {
+    id?: number;
 }
 
 export {
     NewQuestion,
-    ReturnedQuestion,
+    QuestionId,
 };

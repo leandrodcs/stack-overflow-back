@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
 import connection from '../database/database';
 import { NewAnswerInfoDB } from '../interfaces/answerInterface';
-import { NewQuestion, ReturnedQuestion } from '../interfaces/questionInterface';
+import { NewQuestion, QuestionId } from '../interfaces/questionInterface';
 import 'dayjs/locale/pt-br.js';
 
-async function createQuestion(questionBody: NewQuestion): Promise<ReturnedQuestion> {
+async function createQuestion(questionBody: NewQuestion): Promise<QuestionId> {
     const {
         question,
         student,
@@ -44,23 +44,18 @@ async function answerQuestion(newAnswerInfoDB: NewAnswerInfoDB) {
     ;`, [true, dayjs().format('DD/MM/YYYY HH:mm'), answeredById, answer, id]);
 }
 
-async function checkQuestion(id: number) {
-    const result = await connection.query('SELECT * FROM questions WHERE id = $1', [id]);
+async function getQuestions(questionId: QuestionId) {
+    let query = 'SELECT * FROM questions';
+    const queryArr = [];
+    if (questionId.id) {
+        query += ' WHERE id = $1;';
+        queryArr.push(questionId.id);
+    }
+    if (!questionId.id) {
+        query += ' WHERE answered = false ORDER BY id';
+    }
 
-    return result.rows[0];
-}
-
-async function listQuestions() {
-    const result = await connection.query(`
-    SELECT
-        *
-    FROM
-        questions
-    WHERE
-        answered = false
-    ORDER BY
-        id
-    ;`);
+    const result = await connection.query(query, queryArr);
 
     return result.rows;
 }
@@ -68,6 +63,5 @@ async function listQuestions() {
 export {
     createQuestion,
     answerQuestion,
-    checkQuestion,
-    listQuestions,
+    getQuestions,
 };

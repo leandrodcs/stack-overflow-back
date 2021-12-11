@@ -34,12 +34,12 @@ async function answerQuestion(newAnswerInfo: NewAnswerInfo) {
 
     const user = await userRepository.findUserByToken(token);
 
-    const questionToBeAnswered = await questionRepository.checkQuestion(id);
+    const questionToBeAnswered = await questionRepository.getQuestions({ id });
 
-    if (!questionToBeAnswered) {
+    if (!questionToBeAnswered.length) {
         throw new NotFoundError(`A pergunta de id ${id} não existe.`);
     }
-    if (questionToBeAnswered.answered) {
+    if (questionToBeAnswered[0].answered) {
         throw new AlreadyAnsweredError(`A pergunta de id ${id} já foi respondida.`);
     }
 
@@ -47,7 +47,7 @@ async function answerQuestion(newAnswerInfo: NewAnswerInfo) {
 }
 
 async function listQuestions() {
-    const questions = await questionRepository.listQuestions();
+    const questions = await questionRepository.getQuestions({});
     const formatedQuestions = questions.map((q) => ({
         id: q.id,
         question: q.question,
