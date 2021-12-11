@@ -34,7 +34,7 @@ async function answerQuestion(newAnswerInfo: NewAnswerInfo) {
 
     const user = await userRepository.findUserByToken(token);
 
-    const questionToBeAnswered = await questionRepository.getQuestion(id);
+    const questionToBeAnswered = await questionRepository.checkQuestion(id);
 
     if (!questionToBeAnswered) {
         throw new NotFoundError(`A pergunta de id ${id} não existe.`);
@@ -46,7 +46,14 @@ async function answerQuestion(newAnswerInfo: NewAnswerInfo) {
     await questionRepository.answerQuestion({ answeredById: user.id, answer, id });
 }
 
+async function listQuestions() {
+    const questions = await questionRepository.listQuestions();
+
+    return questions;
+}
+
 export {
     postQuestion,
     answerQuestion,
+    listQuestions,
 };

@@ -42,7 +42,18 @@ async function answerQuestion(req: Request, res: Response, next: NextFunction) {
     }
 }
 
+async function listUnansweredQuestions(req: Request, res: Response, next: NextFunction) {
+    try {
+        const questions = await questionService.listQuestions();
+
+        res.status(200).send(questions);
+    } catch (error) {
+        next(error);
+    }
+}
+
 export {
     postQuestion,
     answerQuestion,
+    listUnansweredQuestions,
 };
