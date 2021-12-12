@@ -1,7 +1,7 @@
 interface NewQuestion {
     question: string;
     student: string;
-    className: string;
+    class: string;
     tags?: string;
 }
 

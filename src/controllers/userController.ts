@@ -6,7 +6,7 @@ import * as userService from '../services/userService';
 async function createUser(req: Request, res: Response, next: NextFunction) {
     const {
         name,
-        className,
+        class: className,
     } = req.body;
 
     try {

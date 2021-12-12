@@ -8,7 +8,7 @@ async function createQuestion(questionBody: NewQuestion): Promise<SearchQuestion
     const {
         question,
         student,
-        className,
+        class: className,
     } = questionBody;
 
     const result = await connection.query(`
