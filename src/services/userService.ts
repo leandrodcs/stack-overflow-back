@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import NewUser from '../interfaces/userInterface';
+import { NewUser } from '../interfaces/userInterface';
 import * as classRepository from '../repositories/classRepository';
 import * as userRepository from '../repositories/userRepository';
 import * as sessionRepository from '../repositories/sessionRepository';
@@ -26,6 +26,5 @@ async function createUser(newUser: NewUser) {
 }
 
 export {
-    // eslint-disable-next-line import/prefer-default-export
     createUser,
 };

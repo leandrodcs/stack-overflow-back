@@ -1,5 +1,8 @@
-/* eslint-disable semi */
-export default interface NewUser {
+interface NewUser {
     name: string;
     className: string;
 }
+
+export {
+    NewUser,
+};

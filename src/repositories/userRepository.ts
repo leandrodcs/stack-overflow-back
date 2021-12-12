@@ -6,7 +6,24 @@ async function createUser(name: string, classId: number) {
     return result.rows[0];
 }
 
+async function findUserByToken(token: string) {
+    const result = await connection.query(`
+    SELECT
+        users.id AS id
+    FROM
+        sessions
+    JOIN
+        users
+    ON
+        sessions.user_id = users.id
+    WHERE
+        token = $1
+    ;`, [token]);
+
+    return result.rows[0];
+}
+
 export {
-    // eslint-disable-next-line import/prefer-default-export
     createUser,
+    findUserByToken,
 };

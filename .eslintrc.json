@@ -18,7 +18,9 @@
         "indent": ["error", 4],
         "import/extensions": "off",
         "max-len": 0,
-        "consistent-return": "off"
+        "consistent-return": "off",
+        "import/prefer-default-export": "off",
+        "no-plusplus": "off"
     },
     "settings": {
         "import/resolver": {
