@@ -26,15 +26,19 @@ async function findUserByToken(token: string) {
 async function getMostActiveUsers() {
     const result = await connection.query(`
     SELECT 
-        users.name, count(questions.answered_by) as answers 
+        users.name, 
+        count(questions.answered_by) AS answers, 
+        sum(questions.score) AS points 
     FROM 
         questions 
-    JOIN 
-        users ON questions.answered_by = users.id  
+    JOIN
+        users 
+    ON 
+        questions.answered_by = users.id  
     GROUP BY 
         questions.answered_by, users.name 
     ORDER BY 
-        answers DESC LIMIT 10
+        points DESC LIMIT 10
     ;`);
 
     return result.rows;
