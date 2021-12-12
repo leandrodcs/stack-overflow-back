@@ -7,5 +7,6 @@ const router = express.Router();
 router.post('', questionController.postQuestion);
 router.post('/:id', checkToken, questionController.answerQuestion);
 router.get('', questionController.listUnansweredQuestions);
+router.get('/:id', questionController.getQuestion);
 
 export default router;

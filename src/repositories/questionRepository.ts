@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
 import connection from '../database/database';
 import { NewAnswerInfoDB } from '../interfaces/answerInterface';
-import { NewQuestion, QuestionId } from '../interfaces/questionInterface';
+import { NewQuestion, SearchQuestion } from '../interfaces/questionInterface';
 import 'dayjs/locale/pt-br.js';
 
-async function createQuestion(questionBody: NewQuestion): Promise<QuestionId> {
+async function createQuestion(questionBody: NewQuestion): Promise<SearchQuestion> {
     const {
         question,
         student,
@@ -44,14 +44,18 @@ async function answerQuestion(newAnswerInfoDB: NewAnswerInfoDB) {
     ;`, [true, dayjs().format('DD/MM/YYYY HH:mm'), answeredById, answer, id]);
 }
 
-async function getQuestions(questionId: QuestionId) {
+async function getQuestions(questionInfo: SearchQuestion) {
     let query = 'SELECT * FROM questions';
     const queryArr = [];
-    if (questionId.id) {
-        query += ' WHERE id = $1;';
-        queryArr.push(questionId.id);
+    if (questionInfo.id && !questionInfo.answered) {
+        query += ' WHERE id = $1';
+        queryArr.push(questionInfo.id);
     }
-    if (!questionId.id) {
+    if (questionInfo.id && questionInfo.answered) {
+        query += ' JOIN users ON questions.answered_by = users.id WHERE questions.id = $1;';
+        queryArr.push(questionInfo.id);
+    }
+    if (!questionInfo.id) {
         query += ' WHERE answered = false ORDER BY id';
     }
 

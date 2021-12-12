@@ -60,8 +60,46 @@ async function listQuestions() {
     return formatedQuestions;
 }
 
+async function getQuestion(id: number) {
+    let questions = await questionRepository.getQuestions({ id });
+
+    if (!questions.length) {
+        throw new NotFoundError(`A pergunta de id ${id} não existe.`);
+    }
+
+    const questionTags = await tagRepository.getTagRelation(id);
+    const tagsArr = questionTags.map((q) => q.name);
+    const tags = tagsArr.join(', ');
+
+    const unansweredQuestion = {
+        id: questions[0].id,
+        question: questions[0].question,
+        student: questions[0].posted_by,
+        class: questions[0].class,
+        tags,
+        answered: questions[0].answered,
+        submitedAt: questions[0].submited_at,
+        score: questions[0].score,
+    };
+
+    if (questions[0].answered) {
+        questions = await questionRepository.getQuestions({ id, answered: true });
+        const answeredQuestion = {
+            ...unansweredQuestion,
+            answeredAt: questions[0].answered_at,
+            answeredBy: questions[0].name,
+            answer: questions[0].answer,
+        };
+
+        return answeredQuestion;
+    }
+
+    return unansweredQuestion;
+}
+
 export {
     postQuestion,
     answerQuestion,
     listQuestions,
+    getQuestion,
 };

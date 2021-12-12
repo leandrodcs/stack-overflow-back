@@ -5,11 +5,12 @@ interface NewQuestion {
     tags?: string;
 }
 
-interface QuestionId {
+interface SearchQuestion {
     id?: number;
+    answered?: boolean;
 }
 
 export {
     NewQuestion,
-    QuestionId,
+    SearchQuestion,
 };

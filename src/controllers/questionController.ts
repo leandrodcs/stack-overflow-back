@@ -54,8 +54,23 @@ async function listUnansweredQuestions(req: Request, res: Response, next: NextFu
     }
 }
 
+async function getQuestion(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.params;
+    try {
+        const question = await questionService.getQuestion(Number(id));
+
+        res.status(200).send(question);
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            return res.status(404).send(error.message);
+        }
+        next(error);
+    }
+}
+
 export {
     postQuestion,
     answerQuestion,
     listUnansweredQuestions,
+    getQuestion,
 };
