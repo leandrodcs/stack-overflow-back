@@ -23,7 +23,25 @@ async function findUserByToken(token: string) {
     return result.rows[0];
 }
 
+async function getMostActiveUsers() {
+    const result = await connection.query(`
+    SELECT 
+        users.name, count(questions.answered_by) as answers 
+    FROM 
+        questions 
+    JOIN 
+        users ON questions.answered_by = users.id  
+    GROUP BY 
+        questions.answered_by, users.name 
+    ORDER BY 
+        answers DESC LIMIT 10
+    ;`);
+
+    return result.rows;
+}
+
 export {
     createUser,
     findUserByToken,
+    getMostActiveUsers,
 };

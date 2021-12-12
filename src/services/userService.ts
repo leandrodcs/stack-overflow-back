@@ -3,6 +3,7 @@ import { NewUser } from '../interfaces/userInterface';
 import * as classRepository from '../repositories/classRepository';
 import * as userRepository from '../repositories/userRepository';
 import * as sessionRepository from '../repositories/sessionRepository';
+import NotFoundError from '../errors/notFoundError';
 
 async function createUser(newUser: NewUser) {
     const {
@@ -25,6 +26,17 @@ async function createUser(newUser: NewUser) {
     return newToken;
 }
 
+async function getMostActiveUsers() {
+    const mostActiveUsers = await userRepository.getMostActiveUsers();
+
+    if (!mostActiveUsers.length) {
+        throw new NotFoundError('Nenhum usuário encontrado :(, seja o primeiro a responder uma pergunta!');
+    }
+
+    return mostActiveUsers;
+}
+
 export {
     createUser,
+    getMostActiveUsers,
 };
