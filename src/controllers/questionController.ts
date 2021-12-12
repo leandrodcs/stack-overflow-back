@@ -68,9 +68,41 @@ async function getQuestion(req: Request, res: Response, next: NextFunction) {
     }
 }
 
+async function upvoteQuestion(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.params;
+
+    try {
+        const updatesScore = await questionService.voteQuestion(Number(id), 'up');
+
+        res.send(200).send(updatesScore);
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            return res.status(404).send(error.message);
+        }
+        next(error);
+    }
+}
+
+async function downvoteQuestion(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.params;
+
+    try {
+        const updatesScore = await questionService.voteQuestion(Number(id), 'down');
+
+        res.send(200).send(updatesScore);
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            return res.status(404).send(error.message);
+        }
+        next(error);
+    }
+}
+
 export {
     postQuestion,
     answerQuestion,
     listUnansweredQuestions,
     getQuestion,
+    upvoteQuestion,
+    downvoteQuestion,
 };
