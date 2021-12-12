@@ -67,7 +67,7 @@ async function getQuestions(questionInfo: SearchQuestion): Promise<ReturnedQuest
 async function updateScore(id: number, newScore: number) {
     await connection.query(`
         UPDATE
-            recommendations
+            questions
         SET
             score = $1
         WHERE

@@ -74,7 +74,7 @@ async function upvoteQuestion(req: Request, res: Response, next: NextFunction) {
     try {
         const updatesScore = await questionService.voteQuestion(Number(id), 'up');
 
-        res.send(200).send(updatesScore);
+        res.status(200).send(updatesScore);
     } catch (error) {
         if (error instanceof NotFoundError) {
             return res.status(404).send(error.message);
@@ -89,7 +89,7 @@ async function downvoteQuestion(req: Request, res: Response, next: NextFunction)
     try {
         const updatesScore = await questionService.voteQuestion(Number(id), 'down');
 
-        res.send(200).send(updatesScore);
+        res.status(200).send(updatesScore);
     } catch (error) {
         if (error instanceof NotFoundError) {
             return res.status(404).send(error.message);
