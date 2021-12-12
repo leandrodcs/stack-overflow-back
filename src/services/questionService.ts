@@ -96,9 +96,18 @@ async function getQuestion(id: number) {
     return unansweredQuestion;
 }
 
+async function voteQuestion(id: number) {
+    const questions = await questionRepository.getQuestions({ id });
+
+    if (!questions.length) {
+        throw new NotFoundError(`A pergunta de id ${id} não existe.`);
+    }
+}
+
 export {
     postQuestion,
     answerQuestion,
     listQuestions,
     getQuestion,
+    voteQuestion,
 };
