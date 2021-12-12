@@ -72,7 +72,6 @@ async function getQuestion(id: number) {
     const tags = tagsArr.join(', ');
 
     const unansweredQuestion = {
-        id: questions[0].id,
         question: questions[0].question,
         student: questions[0].posted_by,
         class: questions[0].class,
