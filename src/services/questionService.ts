@@ -96,9 +96,31 @@ async function getQuestion(id: number) {
     return unansweredQuestion;
 }
 
+async function voteQuestion(id: number, vote: string) {
+    const questions = await questionRepository.getQuestions({ id });
+
+    if (!questions.length) {
+        throw new NotFoundError(`A pergunta de id ${id} não existe.`);
+    }
+
+    let newScore;
+
+    if (vote === 'up') {
+        newScore = questions[0].score + 1;
+    }
+    if (vote === 'down') {
+        newScore = questions[0].score - 1;
+    }
+
+    await questionRepository.updateScore(id, newScore);
+
+    return `A pontuação da pergunta de id ${id} mudou de ${questions[0].score} para ${newScore}`;
+}
+
 export {
     postQuestion,
     answerQuestion,
     listQuestions,
     getQuestion,
+    voteQuestion,
 };
