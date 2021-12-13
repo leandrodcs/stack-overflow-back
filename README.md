@@ -115,7 +115,7 @@ Anybody can post a question to be answer, but only registered users can answer t
 </details>
 
 <details>
-    <summary><strong>GET</strong> /users</summary>
+    <summary><strong>POST</strong> /users</summary>
 
 * This route is used to register new users. It returs a response containing a token that can be used to answer questions.
 
